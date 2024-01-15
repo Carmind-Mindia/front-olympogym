@@ -5,7 +5,7 @@ on:
 
 env:
   SERVER_IP: 66.97.44.3
-  PATH_TO_COMPOSE: /root/olympo/${{github.event.repository.name}}
+  PATH_TO_COMPOSE: /root/olimpo/${{github.event.repository.name}}
     
 jobs:
   deploy:
@@ -18,15 +18,15 @@ jobs:
       - name: Install SSH key
         uses: webfactory/ssh-agent@v0.5.4
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_DEV }}  # Asegúrate de almacenar la llave SSH como un secreto en tu repositorio
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_DEV_OLIMPO }}  # Asegúrate de almacenar la llave SSH como un secreto en tu repositorio
 
       - name: Copy file via ssh key
         uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ env.SERVER_IP }}
           username: root
-          port: 5292
-          key: ${{ secrets.SSH_PRIVATE_KEY_DEV }}
+          port: 5343
+          key: ${{ secrets.SSH_PRIVATE_KEY_DEV_OLIMPO }}
           source: "./docker-compose.yml"
           target: ${{ env.PATH_TO_COMPOSE}}
 
@@ -35,8 +35,8 @@ jobs:
         with:
           host: ${{ env.SERVER_IP }}
           username: root
-          port: 5292
-          key: ${{ secrets.SSH_PRIVATE_KEY_DEV }}
+          port: 5343
+          key: ${{ secrets.SSH_PRIVATE_KEY_DEV_OLIMPO }}
           script: |
             cd ${{ env.PATH_TO_COMPOSE}}
             docker compose pull
