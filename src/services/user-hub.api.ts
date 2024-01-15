@@ -3,7 +3,7 @@ import ApiClient from './api.client'
 export class UserHubApi extends ApiClient {
   private static INSTANCE: UserHubApi
 
-  private static BASE_URL = 'https://dev.carmind.com.ar/api/user-hub'
+  private static BASE_URL = 'https://olimpogym.com.ar/api/user-hub'
 
   private constructor() {
     super(UserHubApi.BASE_URL)
