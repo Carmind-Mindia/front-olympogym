@@ -1,0 +1,14 @@
+version: "3"
+services:
+    front-olimpogym:
+      image: fonzeca/front-olimpogym:dev
+      ports:
+        - "3000:3000"
+      networks:
+        - olimpo
+
+networks:
+  olimpo:
+    driver: bridge
+    name: olimpo
+    external: true
