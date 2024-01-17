@@ -1,4 +1,5 @@
 import ApiClient from './api.client'
+import type { User } from './user-hub.api.types'
 
 export class UserHubApi extends ApiClient {
   private static INSTANCE: UserHubApi
@@ -38,5 +39,25 @@ export class UserHubApi extends ApiClient {
 
   resetPassword(code: string, email: string, newPassword: string) {
     return this.client.post('/pw/reset', { token: code, email, newPassword })
+  }
+
+  insertUser(user: { username: string; password: string }) {
+    return this.client.post('/admin/user', user)
+  }
+
+  updateUser(user: { username: string; password: string }) {
+    return this.client.put('/admin/user', user)
+  }
+
+  deleteUser(username: string) {
+    return this.client.delete('/admin/user?username=' + username)
+  }
+
+  getAllUsers() {
+    return this.client.get<User[]>('/admin/users')
+  }
+
+  getUserLogged() {
+    return this.client.get<User>('/logged')
   }
 }

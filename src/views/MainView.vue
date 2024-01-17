@@ -17,7 +17,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="flex flex-col w-full h-full">
+  <div class="flex flex-col w-full h-full lg:flex-row-reverse">
     <RouterView></RouterView>
     <FooterBar></FooterBar>
   </div>

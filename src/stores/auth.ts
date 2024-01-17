@@ -67,9 +67,20 @@ export const authStore = defineStore({
         throw new Error('Error al cambiar contraseña');
       }
     },
+    async getAllUsers() {
+      try {
+        const response = await UserHubApi.GET().getAllUsers();
+        return response.data;
+      } catch (error: any) {
+        if(isUserHubError(error)) {
+          throw new Error(error.response.data.message);
+        }
+        console.error(error);
+        throw new Error('Error al obtener usuarios');
+      }
+    },
   },
 });
-
 
 const isUserHubError = (error: any) => {
   return error.response && error.response.data && error.response.data.code && error.response.data.message && error.response.data.error;

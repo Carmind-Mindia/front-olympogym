@@ -1,25 +1,20 @@
 <script lang="ts">
+import LogoXL from '@/assets/logo/logo-xl.png';
 import { defineComponent, shallowRef } from 'vue';
 import IconCar from './icons/footer-bar/IconCar.vue';
 import IconPerson from './icons/footer-bar/IconPerson.vue';
 import IconRoute from './icons/footer-bar/IconRoute.vue';
+import IconUsers from './icons/footer-bar/IconUsers.vue';
 
 export default defineComponent({
     emits: ["click"],
     data() {
         return {
           options:[
-            //Vehiculos
             {
-              label: "Vehiculos",
-              icon: shallowRef(IconCar),
+              label: "Usuarios",
+              icon: shallowRef(IconUsers),
               route: "app.home"
-            },
-            //Rutas
-            {
-              label: "Rutas",
-              icon: shallowRef(IconRoute),
-              route: "app.gps"
             },
             {
               label: "Perfil",
@@ -28,6 +23,7 @@ export default defineComponent({
             },
           ],
           selected: 0,
+          imageUrl: LogoXL,
         };
     },
     mounted() {
@@ -46,10 +42,13 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="flex h-[64px] flex-row items-center justify-around w-full text-white bg-bg_menu">
-    <div class="flex flex-col items-center min-w-[60px] cursor-pointer" v-for="item,index in options" :key="item.route" @click="click(index)">
+  <div class="flex h-[64px] flex-row items-center justify-around w-full text-white bg-bg_menu lg:h-full lg:w-[210px] lg:flex-col lg:justify-normal lg:gap-4">
+    <div class="hidden lg:flex">
+      <img :src="imageUrl" class="max-w-[250px] max-h-[250px]" />
+    </div>
+    <div class="flex flex-col items-center min-w-[60px] cursor-pointer lg:hover:bg-[#424242] lg:w-full lg:p-2 lg:flex-row lg:gap-2" v-for="item,index in options" :key="item.route" @click="click(index)">
       <component :is="item.icon" class="w-[35px] h-[35px]" :is-selected="index === selected"></component>
-      <span class="text-xs" :class="{'text-accent' : index === selected}">{{item.label}}</span>
+      <span class="text-xs lg:text-base" :class="{'text-accent' : index === selected}">{{item.label}}</span>
     </div>
   </div>
 </template>

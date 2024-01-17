@@ -19,13 +19,7 @@ const router = createRouter({
         {
           path: '',
           name: 'app.home',
-          component: () => import('../views/mains/HomeView.vue'),
-          beforeEnter:[mustBeLogin],
-        },
-        {
-          path: 'gps',
-          name: 'app.gps',
-          component: () => import('../views/mains/GpsView.vue'),
+          component: () => import('../views/mains/UsersView.vue'),
           beforeEnter:[mustBeLogin],
         },
         {
