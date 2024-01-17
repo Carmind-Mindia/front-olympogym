@@ -7,10 +7,12 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    isSelect: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['click'],
-  data() {
-  },
   methods: {
     click() {
       this.$emit('click');
@@ -20,7 +22,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="w-full flex flex-col bg-bar text-white justify-center items-center h-[45px] rounded-md cursor-pointer" v-touch:tap="click">
+  <div class="w-fit flex py-4 px-2 flex-col bg-[#D9D9D95E] text-white justify-center items-center h-full rounded-xl cursor-pointer" v-touch:tap="click">
     {{ label }}
   </div>
 </template>

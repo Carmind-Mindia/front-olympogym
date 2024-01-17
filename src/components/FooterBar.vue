@@ -42,9 +42,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="flex h-[64px] flex-row items-center justify-around w-full text-white bg-bg_menu lg:h-full lg:w-[210px] lg:flex-col lg:justify-normal lg:gap-4">
+  <div class="flex h-[64px] flex-row items-center justify-around w-full text-white bg-bg_menu lg:h-full lg:w-[240px] lg:flex-col lg:justify-normal lg:gap-4">
     <div class="hidden lg:flex">
-      <img :src="imageUrl" class="max-w-[250px] max-h-[250px]" />
+      <img :src="imageUrl" class="max-w-[240px] max-h-[240px] z-40 select-none" />
     </div>
     <div class="flex flex-col items-center min-w-[60px] cursor-pointer lg:hover:bg-[#424242] lg:w-full lg:p-2 lg:flex-row lg:gap-2" v-for="item,index in options" :key="item.route" @click="click(index)">
       <component :is="item.icon" class="w-[35px] h-[35px]" :is-selected="index === selected"></component>
