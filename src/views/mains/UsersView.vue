@@ -3,6 +3,8 @@ import IconArrowRight from '@/components/icons/IconArrowRight.vue';
 import IconLupa from '@/components/icons/IconLupa.vue';
 import IconPersonAvatar from '@/components/icons/IconPersonAvatar.vue';
 import IconPlus from '@/components/icons/IconPlus.vue';
+import NormalInput from '@/components/NormalInput.vue';
+import SearchInput from '@/components/SearchInput.vue';
 import ToggleButton from '@/components/ToggleButton.vue';
 import type { User } from '@/services/user-hub.api.types';
 import { authStore } from '@/stores/auth';
@@ -15,6 +17,7 @@ export default defineComponent({
     data() {
         return {
             users: [] as User[],
+            searchBarValue: ''
         };
     },
     async mounted() {
@@ -22,14 +25,18 @@ export default defineComponent({
     },
     methods: {
         async logout() {
-            await this.authStore.logout();
-            this.$router.push('/');
-        }
+          await this.authStore.logout();
+          this.$router.push('/');
+        },
+        // lupaClick() {
+        //   (this.$refs.searchInput as any).$el.classList.toggle('hidden');
+        //   (this.$refs.iconLupa as any).$el.classList.toggle('hidden');
+        // },
     },
     computed: {
         ...mapStores(authStore)
     },
-    components: { IconLupa, IconPlus, ToggleButton, IconPersonAvatar, IconArrowRight }
+    components: { IconLupa, IconPlus, ToggleButton, IconPersonAvatar, IconArrowRight, NormalInput, SearchInput }
 })
 </script>
 
@@ -38,7 +45,8 @@ export default defineComponent({
     <!-- Top bar -->
     <div class="flex h-[120px] min-h-[120px] bg-bg_menu w-full flex-col px-4">
       <div class="flex flex-row justify-between w-full my-4">
-        <IconLupa class="w-[45px] h-[45px] cursor-pointer" />
+        <!-- <IconLupa class="w-[45px] h-[45px] cursor-pointer lg:hidden" ref="iconLupa" @click="lupaClick"/> -->
+        <SearchInput class="w-full h-[45px] max-w-[400px] mr-6" ref="searchInput" placeholder="Buscar" :value="searchBarValue"/>
         <IconPlus class="w-[45px] h-[45px] cursor-pointer" />
       </div>
       <div class="flex flex-row w-full gap-2">
