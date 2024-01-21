@@ -17,10 +17,18 @@ const router = createRouter({
       beforeEnter:[mustBeLogin],
       children:[
         {
-          path: '',
-          name: 'app.home',
+          path: 'users',
+          name: 'app.users',
           component: () => import('../views/mains/UsersView.vue'),
           beforeEnter:[mustBeLogin],
+          children:[
+            {
+              path: 'add',
+              name: 'app.users.add',
+              component: () => import('../views/mains/AddUser.vue'),
+              beforeEnter:[mustBeLogin],
+            }
+          ]
         },
         {
           path: "profile",

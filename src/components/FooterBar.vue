@@ -14,7 +14,7 @@ export default defineComponent({
             {
               label: "Usuarios",
               icon: shallowRef(IconUsers),
-              route: "app.home"
+              route: "app.users"
             },
             {
               label: "Perfil",
@@ -27,9 +27,11 @@ export default defineComponent({
         };
     },
     mounted() {
+      //listen router changes
+      this.$router.afterEach((to, from) => {
+        this.selected = this.options.findIndex((item) => item.route === to.name);
+      });
       this.selected = this.options.findIndex((item) => item.route === this.$route.name);
-      console.log(this.options);
-      
     },
     methods: {
       click(index: number){
@@ -44,7 +46,7 @@ export default defineComponent({
 <template>
   <div class="flex h-[64px] flex-row items-center justify-around w-full text-white bg-bg_menu lg:h-full lg:w-[240px] lg:flex-col lg:justify-normal lg:gap-4">
     <div class="hidden lg:flex">
-      <img :src="imageUrl" class="max-w-[240px] max-h-[240px] z-40 select-none" />
+      <img :src="imageUrl" class="max-w-[240px] max-h-[240px] z-20 select-none" />
     </div>
     <div class="flex flex-col items-center min-w-[60px] cursor-pointer lg:hover:bg-[#424242] lg:w-full lg:p-2 lg:flex-row lg:gap-2" v-for="item,index in options" :key="item.route" @click="click(index)">
       <component :is="item.icon" class="w-[35px] h-[35px]" :is-selected="index === selected"></component>

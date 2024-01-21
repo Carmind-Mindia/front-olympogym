@@ -10,7 +10,10 @@ export default defineComponent({
 
     };
   },
-  methods: {
+  beforeCreate() {
+    //if is only on /app
+    if (this.$route.path === '/app')
+      this.$router.push({ name: 'app.users' });
   },
   components: { FooterBar }
 })
