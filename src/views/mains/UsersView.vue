@@ -51,6 +51,12 @@ export default defineComponent({
       this.$router.push({ name: 'app.users.add' });
       //only change 
     },
+    search() {
+      this.usersFiltered = this.users.filter((user) => {
+        return user.FirstName.toLowerCase().includes(this.searchBarValue.toLowerCase()) ||
+          user.LastName.toLowerCase().includes(this.searchBarValue.toLowerCase());
+      });
+    }
   },
   computed: {
     ...mapStores(authStore)
@@ -71,7 +77,7 @@ export default defineComponent({
     <div class="flex h-[120px] min-h-[120px] bg-bg_menu w-full flex-col px-4">
       <div class="flex flex-row justify-between w-full my-4">
         <SearchInput class="w-full h-[45px] max-w-[400px] mr-6" ref="searchInput" placeholder="Buscar"
-          :value="searchBarValue" />
+          v-model:value="searchBarValue" @update:value="search"/>
         <IconPlus class="w-[45px] h-[45px] cursor-pointer" @click="openAddUser" />
       </div>
       <div class="flex flex-row w-full gap-2">
@@ -83,7 +89,7 @@ export default defineComponent({
 
     <!-- Content -->
     <div class="flex flex-col w-full h-full gap-2 p-3 text-black">
-      <div v-for="(user, index) in users" :key="index"
+      <div v-for="(user, index) in usersFiltered" :key="index"
         class="flex flex-row items-center h-16 p-2 border-b rounded-lg bg-primary">
         <IconPersonAvatar class="w-[48px] h-[48px]" :color="!!user.AvatarColor ? user.AvatarColor : '#000000' "/>
         <div class="flex flex-col items-start flex-1 h-full mx-3">
