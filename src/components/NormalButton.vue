@@ -9,8 +9,6 @@ export default defineComponent({
     },
   },
   emits: ['click'],
-  data() {
-  },
   methods: {
     click() {
       this.$emit('click');

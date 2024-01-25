@@ -41,7 +41,7 @@ export class UserHubApi extends ApiClient {
     return this.client.post('/pw/reset', { token: code, email, newPassword })
   }
 
-  insertUser(user: { username: string; password: string }) {
+  insertUser(user: User) {
     return this.client.post('/admin/user', user)
   }
 

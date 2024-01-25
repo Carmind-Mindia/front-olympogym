@@ -3,7 +3,7 @@ import NormalInput from '@/components/NormalInput.vue';
 import PopupView from '@/components/PopupView.vue';
 import SearchInput from '@/components/SearchInput.vue';
 import ToggleButton from '@/components/ToggleButton.vue';
-import IconArrowRight from '@/components/icons/IconArrowRight.vue';
+import IconArrowRight from '@/components/icons/IconArrowRightWithBg.vue';
 import IconLupa from '@/components/icons/IconLupa.vue';
 import IconPersonAvatar from '@/components/icons/IconPersonAvatar.vue';
 import IconPlus from '@/components/icons/IconPlus.vue';
@@ -19,6 +19,7 @@ export default defineComponent({
   data() {
     return {
       users: [] as User[],
+      usersFiltered: [] as User[],
       searchBarValue: '',
       addUserView: false
     };
@@ -32,7 +33,13 @@ export default defineComponent({
       }
       next();
     });
+    if (this.$route.name === 'app.users.add') {
+      this.addUserView = true;
+    } else {
+      this.addUserView = false;
+    }
     this.users = await this.authStore.getAllUsers();
+    this.usersFiltered = this.users;
   },
   methods: {
     async logout() {
@@ -41,7 +48,7 @@ export default defineComponent({
     },
     openAddUser() {
       this.addUserView = true;
-      this.$router.push({ name: 'app.users.add'});
+      this.$router.push({ name: 'app.users.add' });
       //only change 
     },
   },
@@ -59,7 +66,7 @@ export default defineComponent({
   </PopupView>
 
   <!-- Esta vista se intercam,bia con el poup depende de la variable addUserView y el tamaño de la pantalla -->
-  <div class="flex-col items-center w-full h-full lg:flex" :class="{'hidden' : addUserView, 'flex': !addUserView}">
+  <div class="flex-col items-center w-full h-full lg:flex" :class="{ 'hidden': addUserView, 'flex': !addUserView }">
     <!-- Top bar -->
     <div class="flex h-[120px] min-h-[120px] bg-bg_menu w-full flex-col px-4">
       <div class="flex flex-row justify-between w-full my-4">
@@ -75,17 +82,17 @@ export default defineComponent({
 
 
     <!-- Content -->
-    <div class="flex flex-col w-full h-full p-3 text-black ">
+    <div class="flex flex-col w-full h-full gap-2 p-3 text-black">
       <div v-for="(user, index) in users" :key="index"
         class="flex flex-row items-center h-16 p-2 border-b rounded-lg bg-primary">
-        <IconPersonAvatar class="w-[48px] h-[48px]" />
+        <IconPersonAvatar class="w-[48px] h-[48px]" :color="!!user.AvatarColor ? user.AvatarColor : '#000000' "/>
         <div class="flex flex-col items-start flex-1 h-full mx-3">
           <div class="flex flex-row">
-            <div class="text-gray-700">{{ user.FirstName }}</div>
-            <div class="text-gray-700">{{ user.LastName }}</div>
+            <div class="text-gray-700">{{ user.FirstName + " " + user.LastName }}</div>
           </div>
         </div>
         <IconArrowRight class="w-[32px] h-[32px]" />
       </div>
     </div>
-  </div></template>
+  </div>
+</template>

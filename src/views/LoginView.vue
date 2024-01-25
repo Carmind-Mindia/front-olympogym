@@ -9,6 +9,7 @@ import { authStore } from '@/stores/auth';
 import { mapStores } from 'pinia';
 
 import { defineComponent } from 'vue';
+import { toast } from 'vue3-toastify';
 
 export default defineComponent({
     data() {
@@ -26,12 +27,14 @@ export default defineComponent({
                 await this.authStore.login(this.email, this.password);
                 this.$router.push('/app');
             } catch (error) {
-                console.log(error);
+                if (error instanceof Error) {
+                    toast.error(error.message);
+                }
             }
             loader.hide();
         },
         forgotPassword() {
-            this.$router.push({path: '/forgot-password', query: {email: this.email}});
+            this.$router.push({ path: '/forgot-password', query: { email: this.email } });
         },
         handleEnter(event: KeyboardEvent) {
             if (event.key === 'Enter') {

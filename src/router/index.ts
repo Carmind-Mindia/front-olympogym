@@ -1,4 +1,5 @@
 import MainView from '@/views/MainView.vue'
+import AddUser from '@/views/mains/AddUser.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { mustBeLoggedOut, mustBeLogin } from './guards'
 
@@ -25,7 +26,7 @@ const router = createRouter({
             {
               path: 'add',
               name: 'app.users.add',
-              component: () => import('../views/mains/AddUser.vue'),
+              component: AddUser,
               beforeEnter:[mustBeLogin],
             }
           ]

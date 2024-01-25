@@ -3,11 +3,13 @@ export interface User {
     Password: string;
     FirstName: string;
     LastName: string;
-    roles: string[];
-    documentType: number; //1: DNI
-    documentNumber: string;
-    recoverPasswordToken: string;
-    mustChangePassword: boolean;
+    Roles: string[];
+    DocumentType: number; //1: DNI
+    DocumentNumber: string;
+    RecoverPasswordToken: string;
+    MustChangePassword: boolean;
     FCMToken: string;
     FCMCreateTimeStamp: string;
+    AvatarColor: string;
+    Phone: string;
 }

@@ -5,23 +5,23 @@ import { defineComponent } from 'vue';
 
 
 export default defineComponent({
-  data() {
-    return {
+    data() {
+        return {
 
-    };
-  },
-  beforeCreate() {
-    //if is only on /app
-    if (this.$route.path === '/app')
-      this.$router.push({ name: 'app.users' });
-  },
-  components: { FooterBar }
+        };
+    },
+    beforeCreate() {
+        //if is only on /app
+        if (this.$route.path === '/app')
+            this.$router.push({ name: 'app.users' });
+    },
+    components: { FooterBar }
 })
 </script>
 
 <template>
-  <div class="flex flex-col w-full h-full lg:flex-row-reverse">
-    <RouterView></RouterView>
-    <FooterBar></FooterBar>
-  </div>
+    <div class="flex flex-col w-full h-full lg:flex-row-reverse">
+        <RouterView></RouterView>
+        <FooterBar></FooterBar>
+    </div>
 </template>
