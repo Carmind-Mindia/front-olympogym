@@ -45,7 +45,7 @@ export class UserHubApi extends ApiClient {
     return this.client.post('/admin/user', user)
   }
 
-  updateUser(user: { username: string; password: string }) {
+  updateUser(user: User) {
     return this.client.put('/admin/user', user)
   }
 

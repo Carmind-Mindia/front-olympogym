@@ -28,6 +28,12 @@ const router = createRouter({
               name: 'app.users.add',
               component: AddUser,
               beforeEnter:[mustBeLogin],
+            },
+            {
+              path: 'edit/:id',
+              name: 'app.users.edit',
+              component: AddUser,
+              beforeEnter:[mustBeLogin],
             }
           ]
         },

@@ -8,7 +8,7 @@ import IconLupa from '@/components/icons/IconLupa.vue';
 import IconPersonAvatar from '@/components/icons/IconPersonAvatar.vue';
 import IconPlus from '@/components/icons/IconPlus.vue';
 import type { User } from '@/services/user-hub.api.types';
-import { authStore } from '@/stores/auth';
+import { userStore } from '@/stores/users';
 import AddUser from '@/views/mains/AddUser.vue';
 import { mapStores } from 'pinia';
 import { defineComponent } from 'vue';
@@ -26,26 +26,30 @@ export default defineComponent({
   },
   async mounted() {
     this.$router.beforeEach((to, from, next) => {
-      if (to.name === 'app.users.add') {
+      if (to.name === 'app.users.add' || to.name === 'app.users.edit') {
         this.addUserView = true;
       } else {
         this.addUserView = false;
       }
       next();
     });
-    if (this.$route.name === 'app.users.add') {
+    if (this.$route.name === 'app.users.add' || this.$route.name === 'app.users.edit') {
       this.addUserView = true;
     } else {
       this.addUserView = false;
     }
-    this.users = await this.authStore.getAllUsers();
+    this.users = await this.usersStore.getAllUsers();
     this.usersFiltered = this.users;
+
+    this.usersStore.$subscribe(() => {
+        this.users = this.usersStore.users;
+        this.usersFiltered = this.users;
+        if(this.searchBarValue !== ''){
+          this.search();
+        }
+    });
   },
   methods: {
-    async logout() {
-      await this.authStore.logout();
-      this.$router.push('/');
-    },
     openAddUser() {
       this.addUserView = true;
       this.$router.push({ name: 'app.users.add' });
@@ -56,10 +60,13 @@ export default defineComponent({
         return user.FirstName.toLowerCase().includes(this.searchBarValue.toLowerCase()) ||
           user.LastName.toLowerCase().includes(this.searchBarValue.toLowerCase());
       });
+    },
+    editUser(user: User) {
+      this.$router.push({ name: 'app.users.edit', params: { id: user.Id } });
     }
   },
   computed: {
-    ...mapStores(authStore)
+    ...mapStores(userStore)
   },
   components: { IconLupa, IconPlus, ToggleButton, IconPersonAvatar, IconArrowRight, NormalInput, SearchInput, PopupView, AddUser }
 })
@@ -72,7 +79,7 @@ export default defineComponent({
   </PopupView>
 
   <!-- Esta vista se intercam,bia con el poup depende de la variable addUserView y el tamaño de la pantalla -->
-  <div class="flex-col items-center w-full h-full lg:flex" :class="{ 'hidden': addUserView, 'flex': !addUserView }">
+  <div class="flex-col items-center flex-1 w-full overflow-hidden lg:flex" :class="{ 'hidden': addUserView, 'flex': !addUserView }">
     <!-- Top bar -->
     <div class="flex h-[120px] min-h-[120px] bg-bg_menu w-full flex-col px-4">
       <div class="flex flex-row justify-between w-full my-4">
@@ -88,7 +95,7 @@ export default defineComponent({
 
 
     <!-- Content -->
-    <div class="flex flex-col w-full h-full gap-2 p-3 text-black">
+    <div class="flex flex-col w-full h-full gap-2 p-3 overflow-auto text-black">
       <div v-for="(user, index) in usersFiltered" :key="index"
         class="flex flex-row items-center h-16 p-2 border-b rounded-lg bg-primary">
         <IconPersonAvatar class="w-[48px] h-[48px]" :color="!!user.AvatarColor ? user.AvatarColor : '#000000' "/>
@@ -97,7 +104,7 @@ export default defineComponent({
             <div class="text-gray-700">{{ user.FirstName + " " + user.LastName }}</div>
           </div>
         </div>
-        <IconArrowRight class="w-[32px] h-[32px]" />
+        <IconArrowRight class="w-[32px] h-[32px] cursor-pointer" @click="editUser(user)" />
       </div>
     </div>
   </div>

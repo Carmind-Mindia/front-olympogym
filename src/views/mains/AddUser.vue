@@ -4,7 +4,7 @@ import NormalInput from '@/components/NormalInput.vue';
 import IconArrowLeft from '@/components/icons/IconArrowLeft.vue';
 import IconPersonAvatar from '@/components/icons/IconPersonAvatar.vue';
 import type { User } from '@/services/user-hub.api.types';
-import { authStore } from '@/stores/auth';
+import { userStore } from '@/stores/users';
 import { mapStores } from 'pinia';
 import { defineComponent } from 'vue';
 import { toast } from 'vue3-toastify';
@@ -15,11 +15,19 @@ export default defineComponent({
   data() {
     return {
       user: {} as User,
-      colors: ['#000000', '#3249C5', '#00B091', '#B340DB', '#BC2A2A', '#CD9C1F', '#F34398']
+      colors: ['#000000', '#3249C5', '#00B091', '#B340DB', '#BC2A2A', '#CD9C1F', '#F34398'],
+      isEditing: false
     };
   },
-  mounted() {
-    this.user.AvatarColor = this.colors[0];
+  async mounted() {
+    if(this.$route.params.id) {
+      const result = await this.usersStore.getUserById(this.$route.params.id as string);
+      this.user = JSON.parse(JSON.stringify(result));
+      this.isEditing = true;
+    } else {
+      this.user = {} as User;
+      this.user.AvatarColor = this.colors[0];
+    }
   },
   methods: {
     back() {
@@ -31,8 +39,18 @@ export default defineComponent({
     async insertUser() {
       let loader = this.$loading.show();
       try {
-        await this.authStore.createUser(this.user);
-        this.$router.push('/app');
+        if(this.isEditing) {
+          await this.usersStore.updateUser(this.user);
+          setTimeout(() => {
+            toast.success('Usuario actualizado');
+          }, 200);
+        } else {
+          await this.usersStore.createUser(this.user);
+          setTimeout(() => {
+            toast.success('Usuario creado');
+          }, 200);
+        }
+        this.$router.back();
       } catch (error) {
         if (error instanceof Error) {
           toast.error(error.message);
@@ -42,7 +60,7 @@ export default defineComponent({
     }
   },
   computed: {
-    ...mapStores(authStore)
+    ...mapStores(userStore)
   },
   components: { IconArrowLeft, IconPersonAvatar, NormalInput, NormalButton }
 })
