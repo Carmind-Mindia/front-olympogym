@@ -17,6 +17,8 @@ import 'vue3-toastify/dist/index.css'
 import { LoadingPlugin } from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/css/index.css'
 
+import askConfirm from '@/plugins/ask_confirm'
+
 const app = createApp(App)
 
 app.use(createPinia())
@@ -39,5 +41,6 @@ app.use(LoadingPlugin, {
 })
 
 app.use(router)
+app.use(askConfirm)
 
 app.mount('#app')

@@ -1,5 +1,6 @@
 <script lang="ts">
 import NormalInput from '@/components/NormalInput.vue';
+import PopupConfirm from '@/components/PopupConfirm.vue';
 import PopupView from '@/components/PopupView.vue';
 import SearchInput from '@/components/SearchInput.vue';
 import ToggleButton from '@/components/ToggleButton.vue';
@@ -7,6 +8,7 @@ import IconArrowRight from '@/components/icons/IconArrowRightWithBg.vue';
 import IconLupa from '@/components/icons/IconLupa.vue';
 import IconPersonAvatar from '@/components/icons/IconPersonAvatar.vue';
 import IconPlus from '@/components/icons/IconPlus.vue';
+import IconTrash from '@/components/icons/IconTrash.vue';
 import type { User } from '@/services/user-hub.api.types';
 import { userStore } from '@/stores/users';
 import AddUser from '@/views/mains/AddUser.vue';
@@ -63,12 +65,18 @@ export default defineComponent({
     },
     editUser(user: User) {
       this.$router.push({ name: 'app.users.edit', params: { id: user.Id } });
+    },
+    async deleteUser(user: User) {
+      const result = await this.$ask('¿Estás seguro?');
+      if (result) {
+        await this.usersStore.deleteUser(user.UserName);
+      }
     }
   },
   computed: {
     ...mapStores(userStore)
   },
-  components: { IconLupa, IconPlus, ToggleButton, IconPersonAvatar, IconArrowRight, NormalInput, SearchInput, PopupView, AddUser }
+  components: { IconLupa, IconPlus, ToggleButton, IconPersonAvatar, IconArrowRight, NormalInput, SearchInput, PopupView, AddUser, IconTrash, PopupConfirm }
 })
 </script>
 
@@ -77,6 +85,7 @@ export default defineComponent({
   <PopupView :show="addUserView">
     <RouterView />
   </PopupView>
+
 
   <!-- Esta vista se intercam,bia con el poup depende de la variable addUserView y el tamaño de la pantalla -->
   <div class="flex-col items-center flex-1 w-full overflow-hidden lg:flex" :class="{ 'hidden': addUserView, 'flex': !addUserView }">
@@ -105,6 +114,7 @@ export default defineComponent({
           </div>
         </div>
         <IconArrowRight class="w-[32px] h-[32px] cursor-pointer" @click="editUser(user)" />
+        <IconTrash class="w-[32px] h-[32px] ml-4 cursor-pointer" @click="deleteUser(user)" />
       </div>
     </div>
   </div>

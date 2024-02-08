@@ -71,7 +71,7 @@ export default defineComponent({
     <!-- Top bar -->
     <div class="flex h-[60px] min-h-[60px] bg-bg_menu w-full flex-row items-center px-4">
       <IconArrowLeft class="w-6 h-6 text-white cursor-pointer lg:hidden" @click="back"></IconArrowLeft>
-      <div class="flex-1 mx-4 text-3xl font-normal text-white">Nuevo usuario</div>
+      <div class="flex-1 mx-4 text-3xl font-normal text-white">{{ !!isEditing ? user.FirstName + ' ' + user.LastName : 'Nuevo usuario'}}</div>
       <div class="hidden w-6 h-6 text-right text-white cursor-pointer lg:block" @click="back">X</div>
     </div>
 

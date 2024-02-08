@@ -63,6 +63,18 @@ export const userStore = defineStore({
         console.error(error)
         throw new Error('Error al actualizar usuario')
       }
+    },
+    async deleteUser(username: string) {
+      try {
+        await UserHubApi.GET().deleteUser(username)
+        this.users = this.users.filter((u) => u.UserName !== username)
+      } catch (error: any) {
+        if (isUserHubError(error)) {
+          throw new Error(error.response.data.message)
+        }
+        console.error(error)
+        throw new Error('Error al eliminar usuario')
+      }
     }
   }
 })
