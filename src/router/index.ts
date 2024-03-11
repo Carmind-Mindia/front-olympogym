@@ -38,6 +38,26 @@ const router = createRouter({
           ]
         },
         {
+          path: 'memberships',
+          name: 'app.membresias',
+          component: () => import('../views/mains/MembershipsView.vue'),
+          beforeEnter:[mustBeLogin],
+          children:[
+            {
+              path: 'add',
+              name: 'app.membresias.add',
+              component: () => import('../views/mains/AddMembership.vue'),
+              beforeEnter:[mustBeLogin],
+            },
+            {
+              path: 'edit/:id',
+              name: 'app.membresias.edit',
+              component: () => import('../views/mains/AddMembership.vue'),
+              beforeEnter:[mustBeLogin],
+            }
+          ]
+        },
+        {
           path: "profile",
           name: "app.profile",
           component: () => import("../views/mains/ProfileView.vue"),

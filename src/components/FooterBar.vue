@@ -2,6 +2,7 @@
 import LogoXL from '@/assets/logo/logo-xl.png';
 import { defineComponent, shallowRef } from 'vue';
 import IconCar from './icons/footer-bar/IconCar.vue';
+import IconMembership from './icons/footer-bar/IconMembership.vue';
 import IconPerson from './icons/footer-bar/IconPerson.vue';
 import IconRoute from './icons/footer-bar/IconRoute.vue';
 import IconUsers from './icons/footer-bar/IconUsers.vue';
@@ -15,6 +16,11 @@ export default defineComponent({
               label: "Usuarios",
               icon: shallowRef(IconUsers),
               route: "app.users"
+            },
+            {
+              label: "Membresias",
+              icon: shallowRef(IconMembership),
+              route: "app.membresias"
             },
             {
               label: "Perfil",
