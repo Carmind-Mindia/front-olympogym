@@ -36,11 +36,22 @@ export const membershipStore = defineStore({
     async deactivateMembership(id: string) {
       try {
         await MembershipApi.GET().deactivateMembership(id)
-        this.memberships = this.memberships.filter((m) => m.id !== id)
+        this.memberships = this.memberships.filter((m) => m._id !== id)
       } catch (error: any) {
         console.error(error)
         throw new Error('Error al desactivar membresía')
       }
-    }
+    },
+    async getMembershipById(id: string) {
+      try {
+        if (!this.memberships.length) {
+          await this.getAllMemberships()
+        }
+        return this.memberships.find((m) => m._id === id)
+      } catch (error: any) {
+        console.error(error)
+        throw new Error('Error al obtener membresía')
+      }
+    },
   }
 })

@@ -8,6 +8,7 @@ export default defineComponent({
             default: false,
         },
     },
+    emits: ['update:show'],
     data() {
         return {
             mediaQuery: window.matchMedia('(max-width: 1024px)'),
@@ -17,6 +18,9 @@ export default defineComponent({
     methods: {
         handleScreenChange(event: MediaQueryListEvent) {
             this.isMobile = event.matches;
+        },
+        closePopup() {
+            this.$emit('update:show', false);
         },
     },
     mounted() {
@@ -33,7 +37,7 @@ export default defineComponent({
 
 <template>
     <Transition :name="isMobile ? '' : 'fade'" ref="transitionBlock">
-        <div v-if="show" class="lg:fixed top-0 left-0 z-40 w-full h-full flex bg-[#0000005e] items-center justify-center">
+        <div v-if="show" class="lg:fixed top-0 left-0 z-40 w-full h-full flex bg-[#0000005e] items-center justify-center" @click.self="closePopup">
             <div class="z-50 w-full h-full bg-white lg:w-fit lg:h-fit">
                 <slot></slot>
             </div>

@@ -76,7 +76,7 @@ export default defineComponent({
     </div>
 
     <!-- Content -->
-    <div class="flex flex-col w-full h-full p-3 text-black ">
+    <div class="flex flex-col w-full h-full p-3 text-black" @keydown.enter="insertUser">
       <div class="flex flex-row">
         <IconPersonAvatar class="w-14 h-14" :color="user.AvatarColor"></IconPersonAvatar>
         <div class="flex flex-col justify-between py-1 ml-4">
@@ -89,16 +89,16 @@ export default defineComponent({
         </div>
       </div>
       <div class="flex flex-col mt-6">
-        <p class="mb-3">DNI</p>
-        <NormalInput v-model:value="user.DocumentNumber" class=""></NormalInput>
-      </div>
-      <div class="flex flex-col mt-6">
         <p class="mb-3">Nombre</p>
         <NormalInput v-model:value="user.FirstName" class=""></NormalInput>
       </div>
       <div class="flex flex-col mt-6">
         <p class="mb-3">Apellido</p>
         <NormalInput v-model:value="user.LastName" class=""></NormalInput>
+      </div>
+      <div class="flex flex-col mt-6">
+        <p class="mb-3">DNI</p>
+        <NormalInput v-model:value="user.DocumentNumber" class=""></NormalInput>
       </div>
       <div class="flex flex-col mt-6">
         <p class="mb-3">Número de celular</p>

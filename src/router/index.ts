@@ -48,12 +48,6 @@ const router = createRouter({
               name: 'app.membresias.add',
               component: () => import('../views/mains/AddMembership.vue'),
               beforeEnter:[mustBeLogin],
-            },
-            {
-              path: 'edit/:id',
-              name: 'app.membresias.edit',
-              component: () => import('../views/mains/AddMembership.vue'),
-              beforeEnter:[mustBeLogin],
             }
           ]
         },

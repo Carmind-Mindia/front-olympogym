@@ -35,7 +35,7 @@ export const userStore = defineStore({
 
       try {
         const response = await UserHubApi.GET().insertUser(user)
-        this.users.push(response.data)
+        this.users.push(user)
         return response.data
       } catch (error: any) {
         if (isUserHubError(error)) {

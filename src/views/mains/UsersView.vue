@@ -76,13 +76,20 @@ export default defineComponent({
   computed: {
     ...mapStores(userStore)
   },
+  watch: {
+    addUserView() {
+      if (!this.addUserView) {
+        this.$router.push({ name: 'app.users' });
+      }
+    }
+  },
   components: { IconLupa, IconPlus, ToggleButton, IconPersonAvatar, IconArrowRight, NormalInput, SearchInput, PopupView, AddUser, IconTrash, PopupConfirm }
 })
 </script>
 
 <template>
   <!-- Popup de agregar usuario -->
-  <PopupView :show="addUserView">
+  <PopupView v-model:show="addUserView">
     <RouterView />
   </PopupView>
 

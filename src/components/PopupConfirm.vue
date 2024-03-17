@@ -47,6 +47,22 @@ export default defineComponent({
             this.$emit('no');
             this.noCallback();
         },
+        pressButton(event: KeyboardEvent) {
+            console.log(event.key);
+            if (event.key === 'Enter') {
+                this.clickYes();
+            } else if (event.key === 'Escape') {
+                this.clickNo();
+            }
+        },
+    },
+    mounted() {
+        //listen keys
+        window.addEventListener('keydown', this.pressButton);
+    },
+    unmounted() {
+        //remove listener
+        window.removeEventListener('keydown', this.pressButton);
     },
 })
 </script>

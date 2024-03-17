@@ -1,5 +1,5 @@
 export interface Membresia {
-  id: string;
+  _id: string;
   nombre: string;
   precio: number;
   plan_duracion: string;
