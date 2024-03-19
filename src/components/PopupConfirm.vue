@@ -68,7 +68,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <Transition name="fade" ref="transitionBlock">
+    <Transition name="fade">
         <div v-if="show" class="absolute top-0 z-40 w-full h-full flex bg-[#0000005e] items-center justify-center">
             <div class="z-50 bg-white rounded-lg w-fit h-fit">
                 <div class="flex flex-col p-1 max-w-[200px]">

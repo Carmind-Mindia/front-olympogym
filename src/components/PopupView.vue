@@ -36,7 +36,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <Transition :name="isMobile ? '' : 'fade'" ref="transitionBlock">
+    <Transition :name="isMobile ? '' : 'fade'">
         <div v-if="show" class="lg:fixed top-0 left-0 z-40 w-full h-full flex bg-[#0000005e] items-center justify-center" @click.self="closePopup">
             <div class="z-50 w-full h-full bg-white lg:w-fit lg:h-fit">
                 <slot></slot>
