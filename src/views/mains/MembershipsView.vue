@@ -28,6 +28,7 @@ export default defineComponent({
       next();
     });
     this.addMembresiaView = this.$route.name === 'app.membresias.add';
+    this.membershipsStore.getAllMemberships();
   },
   methods: {
     openAddMembresia() {
@@ -89,14 +90,14 @@ export default defineComponent({
     </div>
 
 
-    <div class="grid grid-cols-4 gap-2 p-2">
+    <div class="grid grid-cols-2 gap-2 p-2 overflow-auto lg:grid-cols-4">
       <!-- Content -->
       <div v-for="(membership, index) in membershipsStore.memberships" :key="index"
-        class="flex flex-col items-center p-2 border-b gap-2 rounded-lg w-[200px] bg-primary text-sm">
-        <div class="w-full text-lg">
+        class="flex flex-col items-center p-2 border-b gap-2 rounded-lg w-[150px] lg:w-[200px] bg-primary text-sm">
+        <div class="w-full overflow-x-hidden text-lg text-ellipsis">
           {{ membership.nombre }}
         </div>
-        <div class="w-full">
+        <div class="w-full overflow-x-hidden text-ellipsis">
           {{ membership.descripcion }}
         </div>
         <!-- divider -->
@@ -107,7 +108,7 @@ export default defineComponent({
         <div class="w-full">
           Precio: {{ filterCurrency(membership.precio) }}
         </div>
-        <div class="flex flex-row justify-end flex-1 w-full h-full mx-3">
+        <div class="flex flex-row items-end justify-end flex-1 w-full h-full mx-3">
           <IconTrash class="w-[25px] h-[25px] ml-4 cursor-pointer" @click="deleteMembresia(membership)" />
         </div>
       </div>
