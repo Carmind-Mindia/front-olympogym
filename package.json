@@ -12,9 +12,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@fawmi/vue-google-maps": "^0.9.79",
     "pinia": "^2.0.36",
     "sass": "^1.63.4",
+    "socket.io-client": "^4.7.5",
     "vue": "^3.3.2",
     "vue-currency-input": "^3.1.0",
     "vue-loading-overlay": "6.0",
@@ -26,7 +26,6 @@
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
     "@tsconfig/node18": "^2.0.1",
-    "@types/google.maps": "^3.53.4",
     "@types/node": "^18.16.8",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
