@@ -22,8 +22,7 @@ class SocketFingerprintService {
     });
 
     this.socket.on('fingerPrintReaded', (dni: string, nombre: string) => {
-      toast.info(`Fingerprint readed: ${dni} - ${nombre}`);
-      console.log(`Fingerprint readed: ${dni} - ${nombre}`);
+      toast.info(`Huella recibida: ${nombre} - ${dni}`);
     });
 
     // Add more event listeners here
