@@ -8,7 +8,7 @@ class SocketFingerprintService {
   private timeout_callbacks_ms = 3000
 
   constructor() {
-    this.socket = io('http://localhost:3005', { path: '/ws', extraHeaders: { 'x-api-key': 'aaa' } }) // Replace with your server URL
+    this.socket = io('https://olimpogym.com.ar', { path: '/ws/fingerprint-service/ws', extraHeaders: { 'x-api-key': 'aaa' } }) // Replace with your server URL
     this.setupEventListeners()
   }
 
