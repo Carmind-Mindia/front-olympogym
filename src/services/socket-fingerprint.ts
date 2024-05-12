@@ -29,6 +29,10 @@ class SocketFingerprintService {
     // Add more event listeners here
   }
 
+  public setupReSyncCallback(callback: () => void) {
+    this.socket.on('reSync', callback)
+  }
+
   public getAllUsers(): Promise<IFP_User[]> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {

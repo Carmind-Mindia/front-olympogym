@@ -1,6 +1,7 @@
 export interface ServerToClientEvents {
 	fingerPrintReaded: (dni: string, nombre: string) => void
     producerState: (state: ProducerState) => void
+    reSync:() => void
 }
 
 export enum ProducerState { Active = "active", NotFound = "not_found" }

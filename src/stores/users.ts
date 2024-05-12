@@ -73,6 +73,10 @@ export const userStore = defineStore({
   }
 })
 
+SocketFingerprintService.getInstance().setupReSyncCallback(() => {
+  userStore().getAllUsers()
+})
+
 const isUserHubError = (error: any) => {
   return error.response && error.response.data && error.response.data.code && error.response.data.message && error.response.data.error
 }
