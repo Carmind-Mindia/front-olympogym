@@ -1,10 +1,10 @@
-import { UserHubApi } from '@/services/user-hub.api'
-import type { User } from '@/services/user-hub.api.types'
+import SocketFingerprintService from '@/services/socket-fingerprint'
+import type { IFP_User } from '@/services/socket-fingerprint.types'
 import { defineStore } from 'pinia'
 
 // Definir el estado de la tienda
 type UsersState = {
-  users: User[]
+  users: IFP_User[]
 }
 
 export const userStore = defineStore({
@@ -15,9 +15,9 @@ export const userStore = defineStore({
   actions: {
     async getAllUsers() {
       try {
-        const response = await UserHubApi.GET().getAllUsers()
-        this.users = response.data
-        return response.data
+        const response = await SocketFingerprintService.getInstance().getAllUsers()
+        this.users = response
+        return response
       } catch (error: any) {
         if (isUserHubError(error)) {
           throw new Error(error.response.data.message)
@@ -26,17 +26,12 @@ export const userStore = defineStore({
         throw new Error('Error al obtener usuarios')
       }
     },
-    async createUser(user: User) {
-      if (!user.FirstName || !user.LastName || !user.DocumentNumber) throw new Error('Faltan datos obligatorios')
-
-      user.DocumentType = 1
-      user.UserName = user.DocumentNumber
-      user.Password = user.DocumentNumber
+    async createUser(user: IFP_User) {
+      if (!user.dni || !user.name || !user.lastName) throw new Error('Faltan datos obligatorios')
 
       try {
-        const response = await UserHubApi.GET().insertUser(user)
+        await SocketFingerprintService.getInstance().updateOrCreateUser(user)
         this.users.push(user)
-        return response.data
       } catch (error: any) {
         if (isUserHubError(error)) {
           throw new Error(error.response.data.message)
@@ -47,15 +42,14 @@ export const userStore = defineStore({
     },
     async getUserById(id: string) {
       if (this.users.length === 0) await this.getAllUsers()
-      const user = this.users.find((u) => u.Id === id)
+      const user = this.users.find((u) => u._id === id)
       if (user) return user
       throw new Error('Error al obtener usuario')
     },
-    async updateUser(user: User) {
+    async updateUser(user: IFP_User) {
       try {
-        const response = await UserHubApi.GET().updateUser(user)
-        this.users = this.users.map((u) => (u.Id === user.Id ? user : u))
-        return response.data
+        await SocketFingerprintService.getInstance().updateOrCreateUser(user)
+        this.users = this.users.map((u) => (u._id === user._id ? user : u))
       } catch (error: any) {
         if (isUserHubError(error)) {
           throw new Error(error.response.data.message)
@@ -64,10 +58,10 @@ export const userStore = defineStore({
         throw new Error('Error al actualizar usuario')
       }
     },
-    async deleteUser(username: string) {
+    async deleteUser(dni: string) {
       try {
-        await UserHubApi.GET().deleteUser(username)
-        this.users = this.users.filter((u) => u.UserName !== username)
+        await SocketFingerprintService.getInstance().deleteUser(dni)
+        this.users = this.users.filter((u) => u.dni !== dni)
       } catch (error: any) {
         if (isUserHubError(error)) {
           throw new Error(error.response.data.message)

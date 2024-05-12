@@ -9,7 +9,7 @@ import IconLupa from '@/components/icons/IconLupa.vue';
 import IconPersonAvatar from '@/components/icons/IconPersonAvatar.vue';
 import IconPlus from '@/components/icons/IconPlus.vue';
 import IconTrash from '@/components/icons/IconTrash.vue';
-import type { User } from '@/services/user-hub.api.types';
+import type { IFP_User } from '@/services/socket-fingerprint.types';
 import { userStore } from '@/stores/users';
 import AddUser from '@/views/mains/AddUser.vue';
 import { mapStores } from 'pinia';
@@ -20,8 +20,8 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   data() {
     return {
-      users: [] as User[],
-      usersFiltered: [] as User[],
+      users: [] as IFP_User[],
+      usersFiltered: [] as IFP_User[],
       searchBarValue: '',
       addUserView: false
     };
@@ -59,17 +59,17 @@ export default defineComponent({
     },
     search() {
       this.usersFiltered = this.users.filter((user) => {
-        return user.FirstName.toLowerCase().includes(this.searchBarValue.toLowerCase()) ||
-          user.LastName.toLowerCase().includes(this.searchBarValue.toLowerCase());
+        return user.name.toLowerCase().includes(this.searchBarValue.toLowerCase()) ||
+          user.lastName.toLowerCase().includes(this.searchBarValue.toLowerCase());
       });
     },
-    editUser(user: User) {
-      this.$router.push({ name: 'app.users.edit', params: { id: user.Id } });
+    editUser(user: IFP_User) {
+      this.$router.push({ name: 'app.users.edit', params: { id: user._id } });
     },
-    async deleteUser(user: User) {
+    async deleteUser(user: IFP_User) {
       const result = await this.$ask('¿Estás seguro?');
       if (result) {
-        await this.usersStore.deleteUser(user.UserName);
+        await this.usersStore.deleteUser(user.dni);
       }
     }
   },
@@ -114,10 +114,10 @@ export default defineComponent({
     <div class="flex flex-col w-full h-full gap-2 p-3 overflow-auto text-black">
       <div v-for="(user, index) in usersFiltered" :key="index"
         class="flex flex-row items-center h-16 p-2 border-b rounded-lg bg-primary">
-        <IconPersonAvatar class="w-[48px] h-[48px]" :color="!!user.AvatarColor ? user.AvatarColor : '#000000' "/>
+        <IconPersonAvatar class="w-[48px] h-[48px]" color="#000000"/>
         <div class="flex flex-col items-start flex-1 h-full mx-3">
           <div class="flex flex-row">
-            <div class="text-gray-700">{{ user.FirstName + " " + user.LastName }}</div>
+            <div class="text-gray-700">{{ user.name + " " + user.lastName }}</div>
           </div>
         </div>
         <IconArrowRight class="w-[32px] h-[32px] cursor-pointer" @click="editUser(user)" />
