@@ -20,7 +20,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <div class="flex flex-col w-full h-full lg:flex-row-reverse">
+    <div class="flex flex-col w-full h-dvh lg:flex-row-reverse">
         <RouterView></RouterView>
         <FooterBar></FooterBar>
     </div>
